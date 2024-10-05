@@ -1,0 +1,150 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Registrar Multa - PMT SANTA</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.1.1/css/all.min.css">
+    <link rel="stylesheet" href="../style/encabezado.css">
+    <link rel="stylesheet" href="../style/generar_multa.css">
+</head>
+<body>
+    <header>
+        <div class="top-bar">
+            <div class="logo">
+                <img src="../image/logo_pmt.png" alt="PMT SANTA Logo">
+            </div>
+            <div class="top-links">
+                <h2 style="color: aliceblue;">Policía Municipal De Tránsito, Santa Lucía Cotzumalguapa</h2>
+            </div>
+            <div class="logout">
+                <a href="/logout"><i class="fas fa-sign-out-alt"></i> Cerrar Sesión</a>
+            </div>
+        </div>
+        <nav>
+            <ul>
+                <li><a href="inicio.html"><i class="fas fa-home"></i> Inicio</a></li>
+                <li><a href="#"><i class="fas fa-address-book"></i> Contactos</a></li>
+                <li><a href="crear_usuario.html"><i class="fas fa-user-plus"></i> Crear Usuario</a></li>
+                <li><a href="mostrar_multas.html"><i class="fas fa-eye"></i> Mostrar Multas</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <main>
+        <section class="formulario-multa">
+            <h2><i class="fas fa-ticket-alt"></i> Registrar Multa</h2>
+            <form action="/UI/generar_multa" method="POST">
+                <fieldset>
+                    <legend>Datos del Infractor</legend>
+
+                    <label for="num_dpi">Número de DPI:</label>
+                    <input type="text" id="num_dpi" name="infractorDPI" required>
+                    <button type="button" id="verificarInfractor">Verificar infractor</button> <!-- Botón para verificar infractor -->
+
+                    <label for="nombre_infractor">Nombre del infractor:</label>
+                    <input type="text" id="nombre_infractor" name="infractorNombre" required>
+
+                    <label for="direccion_infractor">Dirección:</label>
+                    <input type="text" id="direccion_infractor" name="infractorDireccion" required>
+
+                    <label for="num_licencia">Número de licencia:</label>
+                    <input type="text" id="num_licencia" name="infractorLicencia" required>
+                </fieldset>
+
+                <fieldset>
+                    <legend>Datos del Vehículo</legend>
+
+                    <label for="placa">Placa del vehículo:</label>
+                    <input type="text" id="placa" name="placa" required>
+                    <button type="button" id="verificarVehiculo">Verificar vehículo</button> <!-- Botón para verificar vehículo -->
+
+                    <label for="tarjeta_circulacion">Tarjeta de circulación:</label>
+                    <input type="text" id="tarjeta_circulacion" name="tarjetaCirculacion" required>
+
+                    <label for="tipo_vehiculo">Tipo de vehículo:</label>
+                    <select id="tipo_vehiculo" name="tipoVehiculo" required>
+                        <option value="Automóvil">Automóvil</option>
+                        <option value="Motocicleta">Motocicleta</option>
+                        <option value="Camioneta">Camioneta</option>
+                        <option value="Camión">Camión</option>
+                    </select>
+
+                    <label for="marca">Marca del vehículo:</label>
+                    <input type="text" id="marca" name="marca" required>
+
+                    <label for="color">Color del vehículo:</label>
+                    <input type="text" id="color" name="color" required>
+                </fieldset>
+
+                <fieldset>
+                    <legend>Datos de la Infracción</legend>
+                    <label for="tipo_infraccion">Tipo de infracción:</label>
+                    <select id="tipo_infraccion" name="tipoInfraccion" required>
+                        <!-- Los tipos de infracción se cargarán dinámicamente mediante JavaScript -->
+                    </select>
+
+                    <label for="numero_multa">Número de multa:</label>
+                    <input type="text" id="numero_multa" name="numeroMulta" required>
+
+                    <label for="fecha_infraccion">Fecha de la infracción:</label>
+                    <input type="date" id="fecha_infraccion" name="fechaInfraccion" required>
+                    
+                    <label for="monto_multa">Monto de la multa (Q):</label> 
+                    <input type="number" id="monto_multa" name="montoMulta" required step="0.01" min="0">
+
+                    <label for="estado_multa">Estado de la multa:</label>
+                    <input type="text" id="estado_multa" name="estadoMulta" value="Pendiente" readonly>
+
+                    <label for="fecha_vencimiento">Fecha de vencimiento:</label>
+                    <input type="date" id="fecha_vencimiento" name="fechaVencimiento">
+                </fieldset>
+
+                <fieldset>
+                    <legend>Datos adicionales</legend>
+                    <label for="comentario">Comentario</label>
+                    <input type="text" id="comentario" name="comentario">
+
+                    <label for="fecha_comentario">Fecha comentario:</label>
+                    <input type="date" id="fecha_comentario" name="fechaComentario">
+                </fieldset>
+
+                <fieldset>
+                    <legend>Usuario que registra la multa</legend>
+                    <label for="usuario">Usuario que registra:</label>
+                    <input type="text" id="usuario" name="usuario" value="<%= username %>" readonly>
+                </fieldset>
+
+                <div class="submit-button">
+                    <button type="submit"><i class="fas fa-save"></i> Registrar Multa</button>
+                </div>
+            </form>
+        </section>
+    </main>
+
+    <footer>
+        <div class="contactanos">
+            <h2><i class="fas fa-id-badge"></i> CONTÁCTANOS</h2>
+            <div class="social-icons">
+                <a href="#"><i class="fab fa-facebook-f"></i></a>
+                <a href="#"><i class="fab fa-tiktok"></i></a>
+                <a href="#"><i class="fab fa-twitter"></i></a>
+                <a href="#"><i class="fab fa-instagram"></i></a>
+                <a href="#"><i class="fab fa-youtube"></i></a>
+            </div>
+            <div class="contact-info">
+                <div>
+                    <i class="fas fa-headset"></i>
+                    <p>1551 call center</p>
+                </div>
+                <div>
+                    <i class="fas fa-fire-extinguisher"></i>
+                    <p>123 Bomberos</p>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+            <script src="../UI _JS/formulario_multas.js"></script>
+</body>
+</html>

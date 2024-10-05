@@ -1,0 +1,162 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.1.1/css/all.min.css">
+    <link rel="stylesheet" href="../style/navegacion_consultas.css">
+    <link rel="stylesheet" href="../style/consulta_multas.css">
+
+    <title>Consulta de Multas</title>
+</head>
+<body>
+    <header>
+        <img src="../image/logo_pmt.png" alt="Logo" class="logo">
+        <a href="../index.html" class="btn-volver-inicio "><i class="fas fa-sign-in-alt"></i>Página Principal</a>
+    </header>
+
+    <main>
+        <section>
+            <h1>Consulta de Multas</h1>
+            <form id="consulta-multas-form">
+                <label for="placa">Ingrese la placa del vehículo:</label>
+                <input type="text" id="placa" name="placa" placeholder="Placa" required>
+                <button class="btn_buscar" type="submit" id="buscar-multas"> <i class="fa fa-search"></i> Buscar</button>
+            </form>
+            <button class="btn_volver" id="volver" style="display: none;">Volver a consultar</button>
+        </section>
+
+        <section class="container-mostrar-multas" id="resultados" style="display: none;">
+            <h2 id="titulo-resultados" style="display: block;">Resultados de Multas</h2>
+            <div id="mensaje"></div>
+            <table id="tabla-multas" style="display: none;">
+                <thead>
+                    <tr>
+                        <th>Fecha</th>
+                        <th>Tipo Infracción</th>
+                        <th>Monto</th>
+                        <th>Estado</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <!-- Aquí se mostrarán las multas encontradas -->
+                </tbody>
+            </table>
+            <div id="mensaje"></div> <!-- Mensaje que se mostrará si no hay multas -->
+        </section>
+    </main>
+
+    <footer>
+        <div class="contactanos">
+            <h2><i class="fas fa-id-badge"></i> CONTÁCTANOS</h2>
+            <div class="social-icons">
+                <a href="#"><i class="fab fa-facebook-f"></i></a>
+                <a href="#"><i class="fab fa-tiktok"></i></a>
+                <a href="#"><i class="fab fa-twitter"></i></a>
+                <a href="#"><i class="fab fa-instagram"></i></a>
+                <a href="#"><i class="fab fa-youtube"></i></a>
+            </div>
+            <div class="contact-info">
+                <div>
+                    <i class="fas fa-headset"></i>
+                    <p>1551 call center</p>
+                </div>
+                <div>
+                    <i class="fas fa-fire-extinguisher"></i>
+                    <p>123 Bomberos</p>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+       document.addEventListener("DOMContentLoaded", function() {
+    const form = document.getElementById('consulta-multas-form');
+    const mensajeDiv = document.getElementById('mensaje');
+    const resultadosSection = document.getElementById('resultados');
+    const volverButton = document.getElementById('volver');
+    const buscarButton = document.getElementById('buscar-multas');
+    const placaInput = document.getElementById('placa');
+    const tablaMultas = document.getElementById('tabla-multas');
+    const tituloResultados = document.getElementById('titulo-resultados');
+    const containerMostrarMultas = document.querySelector('.container-mostrar-multas');
+
+    form.addEventListener('submit', function(event) {
+        event.preventDefault(); // Evitar el envío del formulario
+
+        const placa = placaInput.value;
+
+        // Hacer la solicitud para obtener las multas por la placa
+        fetch(`/UI/consultar_multas/${placa}`)
+            .then(response => {
+                if (!response.ok) {
+                    mensajeDiv.innerText = 'No se encontraron multas para esta placa.';
+                    mensajeDiv.style.display = 'block';
+                    volverButton.style.display = 'block';
+                    resultadosSection.style.display = 'none'; // Asegúrate de ocultar la tabla
+                    buscarButton.style.display = 'inline'; // Asegúrate de mostrar el botón de buscar
+                    placaInput.style.display = 'inline'; // Volver a mostrar el campo de entrada
+                    containerMostrarMultas.classList.remove('ancho-amplio'); // Restablecer ancho
+                    return []; // Devolver un array vacío si no hay multas
+                }
+                return response.json();
+            })
+            .then(data => {
+                const tbody = document.querySelector('#tabla-multas tbody');
+                tbody.innerHTML = ''; // Limpiar resultados anteriores
+                resultadosSection.style.display = 'block'; // Mostrar la sección de resultados
+                buscarButton.style.display = 'none'; // Ocultar el botón de búsqueda
+                placaInput.style.display = 'none'; // Ocultar el campo de entrada de placa
+                document.querySelector('label[for="placa"]').style.display = 'none'; // Ocultar la etiqueta de entrada de placa
+
+                if (data.length === 0) {
+                    mensajeDiv.innerText = 'No tiene multas pendientes.';
+                    mensajeDiv.style.display = 'block';
+                    tablaMultas.style.display = 'none'; // No mostrar la tabla vacía
+                    tituloResultados.style.display = 'none'; // Ocultar el título si no hay multas
+                    containerMostrarMultas.classList.remove('ancho-amplio'); // Restablecer ancho
+                } else {
+                    mensajeDiv.style.display = 'none'; // Ocultar mensaje si hay multas
+                    tablaMultas.style.display = 'block'; // Mostrar la tabla si hay multas
+                    data.forEach(row => {
+                    const fecha = new Date(row.fecha_infraccion); // Convertir la fecha a un objeto Date
+                    const formattedDate = `${String(fecha.getDate()).padStart(2, '0')}/${String(fecha.getMonth() + 1).padStart(2, '0')}/${fecha.getFullYear()}`; // Formatear la fecha a 'dd/mm/aaaa'
+                    const formattedMonto = `Q${row.monto_multa.toFixed(2)}`; // Mostrar monto en quetzales con dos decimales
+                        
+                        const tr = document.createElement('tr');
+                        tr.innerHTML = `
+                            <td>${formattedDate || 'N/A'}</td>
+                            <td>${row.tipo_infraccion || 'N/A'}</td>
+                            <td>${formattedMonto || 'N/A'}</td>
+                            <td>${row.estado_multa || 'N/A'}</td>
+                        `;
+                        tbody.appendChild(tr);
+                    });
+                    tituloResultados.style.display = 'block'; // Asegurarse de mostrar el título si hay multas
+                    containerMostrarMultas.classList.add('ancho-amplio'); // Cambia el ancho
+                }
+                volverButton.style.display = 'block'; // Mostrar el botón de volver en ambos casos
+            })
+            .catch(error => {
+                console.error('Error:', error);
+                // Aquí puedes manejar el error de manera adicional si lo deseas
+            });
+    });
+
+    volverButton.addEventListener('click', function() {
+        resultadosSection.style.display = 'none'; // Ocultar la sección de resultados
+        mensajeDiv.style.display = 'none'; // Ocultar el mensaje
+        volverButton.style.display = 'none'; // Ocultar el botón
+        placaInput.value = ''; // Limpiar el campo de entrada
+        placaInput.style.display = 'inline'; // Volver a mostrar el campo de entrada
+        buscarButton.style.display = 'inline'; // Volver a mostrar el botón de buscar
+        document.querySelector('label[for="placa"]').style.display = 'inline'; // Volver a mostrar la etiqueta
+        placaInput.focus(); // Volver a enfocar en el campo de entrada
+        containerMostrarMultas.classList.remove('ancho-amplio'); // Restablecer ancho al volver a consultar
+    });
+});
+
+    </script>
+    
+</body>
+</html>

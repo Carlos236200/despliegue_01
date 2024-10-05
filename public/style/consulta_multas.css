@@ -1,0 +1,153 @@
+/* Reset básico */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Arial', sans-serif;
+}
+
+/* Estilos del main */
+main {
+    min-width: 350px; /* Cambiado para ser más accesible en móviles */
+    width: auto;
+    margin: 40px auto;
+    padding: 20px;
+    background-color: #fff;
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+    border-radius: 20px;
+}
+
+section {
+    display: flex;
+    flex-direction: column; /* Asegúrate de que los elementos se apilen verticalmente */
+    align-items: center; /* Centra el contenido horizontalmente */
+}
+
+/* Títulos */
+h1, h2 {
+    color: #0056b3;
+    text-align: center;
+    margin-bottom: 20px;
+}
+
+/* Formulario */
+form {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 10px;
+}
+
+label {
+    font-size: 18px;
+}
+
+input[type="text"] {
+    padding: 10px;
+    width: 100%; /* Cambiado para ser responsive */
+    max-width: 400px;
+    border: 1px solid #ccc;
+    border-radius: 10px;
+    font-size: 16px;
+}
+
+.btn_buscar,
+.btn_volver {
+    background-color: #1a237e;
+    margin-bottom: 20px;
+    width: 100%; /* Cambiado para ser responsive */
+    max-width: 400px; /* Agregado max-width para los botones */
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    font-size: 16px;
+    border-radius: 10px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.btn_buscar:hover,
+.btn_volver:hover {
+    background-color: #004094;
+}
+
+/* Estilo para el mensaje de no hay multas */
+#mensaje {
+    font-size: 24px; /* Tamaño de fuente más grande */
+    color: green; /* Color verde */
+    text-align: center;
+    margin-top: 1px; /* Espacio superior */
+    display: none; /* Ocultar inicialmente */
+}
+
+/* Sección de resultados */
+.container-mostrar-multas {
+    margin-top: 30px;
+    width: 100%; /* 100% del contenedor principal */
+    max-width: 90%; /* Ancho máximo */
+    margin-left: auto; /* Centrarse horizontalmente */
+    margin-right: auto; /* Centrarse horizontalmente */
+    padding: 20px; /* Espaciado interno */
+    background-color: #f9f9f9; /* Color de fondo del contenedor */
+    border-radius: 20px; /* Esquinas redondeadas */
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1); /* Sombra sutil */
+}
+
+table {
+    width: 100%; /* La tabla ocupa todo el ancho del contenedor */
+    border-collapse: collapse;
+    margin-top: 20px;
+    overflow-x: auto; /* Permitir desplazamiento horizontal */
+}
+
+th, td {
+    text-align: center;
+    padding: 10px;
+    border-bottom: 1px solid #ddd;
+}
+
+th {
+    background-color: #1a237e;
+    color: white;
+}
+
+tr:nth-child(even) {
+    background-color: #f2f2f2;
+}
+
+tr:hover {
+    background-color: #f1f1f1;
+}
+
+td {
+    color: #333;
+}
+
+/* Responsividad */
+@media (max-width: 768px) {
+    main {
+        padding: 10px;
+    }
+
+    input[type="text"],
+    .btn_buscar,
+    .btn_volver {
+        max-width: 100%; /* Permitir que el ancho sea 100% en móviles */
+    }
+
+    table {
+        font-size: 14px;
+        overflow-x: auto; /* Permitir desplazamiento horizontal en tablas */
+    }
+
+    /* Ajustes de márgenes para botones */
+    .btn_volver {
+        width: 80%; /* Botón volver más estrecho */
+        margin: 0 auto; /* Centrar el botón */
+    }
+}
+
+/* Clase para ancho más amplio */
+.container-mostrar-multas.ancho-amplio {
+    width: 90%; /* Ancho más amplio al mostrar multas */
+}

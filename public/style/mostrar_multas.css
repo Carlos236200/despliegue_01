@@ -1,0 +1,56 @@
+/* mostrar_multas.css */
+
+h2 {
+    color: var(--primary-color);
+    border-bottom: 3px solid var(--secondary-color);
+    padding-bottom: 10px;
+    margin-bottom: 20px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.mostrar-multas {
+    background: #fff;
+    border-radius: 5px;
+    box-shadow: 0 0 10px rgba(0,0,0,0.1);
+    overflow-x: auto; /* Permite el desplazamiento horizontal si la tabla es demasiado ancha */
+}
+
+.mostrar-multas h2 {
+    margin-top: 0;
+    padding: 10px;
+    background: #1a237e;
+    color: #fff;
+    border-radius: 5px 5px 0 0;
+}
+
+#multasTable {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+#multasTable thead {
+    background-color: #1a237e;
+    color: #fff;
+}
+
+#multasTable th,
+#multasTable td {
+    border: 1px solid #ddd;
+    padding: 8px;
+    text-align: left;
+}
+
+#multasTable th {
+    background-color: #1a237e;
+}
+
+#multasTable td {
+    background-color: #fff;
+}
+
+#multasTable tr:nth-child(even) {
+    background-color: #f2f2f2;
+}
+
